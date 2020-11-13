@@ -1,0 +1,14 @@
+{
+  "name": "twitch-mybot",
+  "version": "1.33.7",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "EchtkPvL",
+  "license": "ISC",
+  "dependencies": {
+    "tmi.js": "^1.5.0"
+  }
+}
