@@ -26,3 +26,7 @@ TypeError: Cannot read property 'resolveNs' of undefined
     at emitOne (events.js:116:13)
 ```
 Fix: Update NodeJS (I'm using v14.15.0)
+
+## Copyright
+
+Note that this repository is distributed under the MIT License. See `LICENSE` for details.
