@@ -54,6 +54,12 @@ client.on('notice', (channel, msgid, message) => {
     console.log(`notice: [${channel}] ${msgid} => ${message}`);
 });
 
+process.on('SIGINT', function() {
+    client.disconnect();
+    console.log("SIGINT");
+    process.exit();
+});
+
 // ---------------------------
 // chat, action or whisper
 // ---------------------------
