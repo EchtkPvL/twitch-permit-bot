@@ -2,8 +2,8 @@
  * NodeJS Twitch Permit-Bot via tmi.js
  *
  * @author    Jonas Berner <admin@jonas-berner.de>
- * @version   1.0.0
- * @copyright 13.11.2020 Jonas Berner
+ * @version   1.0.1
+ * @copyright 02.02.2021 Jonas Berner
  */
 console.log(`EchtkPvL Twitch Permit-Bot (NodeJS ${process.version})`);
 let tmi, client;
@@ -59,8 +59,8 @@ client.on('notice', (channel, msgid, message) => {
 // ---------------------------
 client.on('message', (channel, userstate, message, self) => {
     if(self) return;
-    if( check_link(channel, userstate, message, self) ) return; // Link-Protection
     
+    check_link(channel, userstate, message, self); // Link-Protection
     commands(channel, userstate, message, self);
 });
 
