@@ -142,13 +142,22 @@ async function check_link(channel, userstate, message, self) {
     if (match === null) return;
 
     console.log(`[${channel}] Link detected: ${message}`);
-    var plain_link = match[2].replace(' ', '');
+    var plain_link = match[2].replace(/\s/g, '');
+
+    // Whitelist
+    switch(plain_link){
+        case "twitch.tv":
+        case "echtkpvl.de":
+        case "github.com":
+            console.log(`[${channel}] Link in Whitelist: ${plain_link}`);
+            return;
+    }
 
     try {
         await dns.resolveNs(plain_link);
     } catch(error) {
         permit = true;
-        console.log(`[${channel}] Resolve-Error: ${error.code}`);
+        console.log(`[${channel}] Resolve-Error: ${error.code} (${plain_link})`);
     }
 
     if(permit) return;
