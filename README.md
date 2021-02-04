@@ -1,4 +1,5 @@
 # twitch-permit-bot
+Twitch Bot which will remove messages from a Twitch chat if they contain a link. `!permit [username] [duration]` to permit a user. There is also a whitelist with domains that won't get deleted.
 
 ## Setup
 Clone repository: `git clone git@github.com:EchtkPvL/twitch-permit-bot.git`
@@ -28,5 +29,4 @@ TypeError: Cannot read property 'resolveNs' of undefined
 Fix: Update NodeJS (I'm using v14.15.0)
 
 ## Copyright
-
 Note that this repository is distributed under the MIT License. See `LICENSE` for details.
