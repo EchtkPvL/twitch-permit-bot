@@ -137,12 +137,12 @@ async function check_link(channel, userstate, message, self) {
         if(userstate.badges.staff) permit = true; // Twitch-Staff
     }
     
-    var RegEx = /([\d\w\- ]+)([ ]*\.[ ]*)([a-z]{2,})/;
+    var RegEx = /([\d\w\- ]+\.)*([\d\w\- ]+\.[ ]*[a-z]{2,})/;
     var match = RegEx.exec(message.toLowerCase());
     if (match === null) return;
     
     console.log(`[${channel}] Link detected: ${message}`);
-    var plain_link = match[0].replace(' ', '');
+    var plain_link = match[2].replace(' ', '');
     
     try {
         await dns.resolveNs(plain_link);
