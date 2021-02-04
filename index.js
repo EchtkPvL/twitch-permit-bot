@@ -2,8 +2,8 @@
  * NodeJS Twitch Permit-Bot via tmi.js
  *
  * @author    Jonas Berner <admin@jonas-berner.de>
- * @version   1.0.1
- * @copyright 02.02.2021 Jonas Berner
+ * @version   1.0.2
+ * @copyright 04.02.2021 Jonas Berner
  */
 console.log(`EchtkPvL Twitch Permit-Bot (NodeJS ${process.version})`);
 let tmi, client;
@@ -65,7 +65,7 @@ process.on('SIGINT', function() {
 // ---------------------------
 client.on('message', (channel, userstate, message, self) => {
     if(self) return;
-    
+
     check_link(channel, userstate, message, self); // Link-Protection
     commands(channel, userstate, message, self);
 });
@@ -99,7 +99,7 @@ function commands(channel, userstate, message, self) {
 function cmd_permit(channel, userstate, message, self, args, command) {
     var authorized = false;
     var user = args[0].toLowerCase().replace('@', '');
-    
+
     if(userstate.badges !== null){
         if(userstate.badges.moderator) authorized = true; // Mod
         if(userstate.badges.broadcaster) authorized = true; // Streamer
@@ -107,14 +107,14 @@ function cmd_permit(channel, userstate, message, self, args, command) {
         if(userstate.badges.global_mod) authorized = true; // Global Mod
         if(userstate.badges.staff) authorized = true; // Twitch-Staff
     }
-    
+
     if(!authorized) return false;
-    
+
     var delay = 60;
     if(args.length >= 2 && !isNaN(args[1]) && args[1] <= 3600) delay = args[1];
-    
+
     permit_obj[user] = new Date().getTime() + (delay * 1000);
-    
+
     client.say(channel, `@${user} you are now permited to post links for ${delay} seconds`);
 }
 
@@ -127,7 +127,7 @@ setInterval(() => {
 async function check_link(channel, userstate, message, self) {
     var permit = false;
     var user = userstate.username;
-    
+
     if(userstate.badges !== null){
         if(userstate.badges.moderator) permit = true; // Mod
         if(userstate.badges.subscriber) permit = true; // Sub
@@ -136,23 +136,23 @@ async function check_link(channel, userstate, message, self) {
         if(userstate.badges.global_mod) permit = true; // Global Mod
         if(userstate.badges.staff) permit = true; // Twitch-Staff
     }
-    
+
     var RegEx = /([\d\w\- ]+\.)*([\d\w\- ]+\.[ ]*[a-z]{2,})/;
     var match = RegEx.exec(message.toLowerCase());
     if (match === null) return;
-    
+
     console.log(`[${channel}] Link detected: ${message}`);
     var plain_link = match[2].replace(' ', '');
-    
+
     try {
         await dns.resolveNs(plain_link);
     } catch(error) {
         permit = true;
         console.log(`[${channel}] Resolve-Error: ${error.code}`);
     }
-    
+
     if(permit) return;
-    
+
     if(!isNaN(permit_obj[user]) && new Date().getTime() <= permit_obj[user]){
         return;
     } else {
